@@ -2,7 +2,7 @@ function formatInput(input) {
   function parseInstructions(instructions) {
     return instructions.split(",").map(instruction => ({
       direction: instruction[0],
-      distance: instruction.slice(1)
+      distance: Number(instruction.slice(1))
     }));
   }
   const temp = input.split(/\r?\n/);
@@ -12,32 +12,55 @@ function formatInput(input) {
   };
 }
 
-function findNewCoordinate(instructions) {
-  return instructions;
+function serializePointData(pointData) {
+  return [pointData.x, pointData.y].join(",");
 }
 
 const part1 = input => {
   console.log("part 1");
   const data = formatInput(input);
-  console.log(data);
-
-  const vistedCoordinates = [];
 
   let currentPoint = { x: 0, y: 0 };
+  const vistedCoordinates = [];
   data.first.forEach(instruction => {
-    if (instruction.direction === "U") {
-      currentPoint.y += Number(instruction.distance);
-    } else if (instruction.direction === "D") {
-      currentPoint.y -= Number(instruction.distance);
-    } else if (instruction.direction === "L") {
-      currentPoint.x -= Number(instruction.distance);
-    } else if (instruction.direction === "R") {
-      currentPoint.x += Number(instruction.distance);
+    const { distance, direction } = instruction;
+    for (let index = 0; index < distance; index++) {
+      if (direction === "U") {
+        currentPoint.y++;
+      } else if (direction === "D") {
+        currentPoint.y--;
+      } else if (direction === "L") {
+        currentPoint.x--;
+      } else if (direction === "R") {
+        currentPoint.x++;
+      }
+      vistedCoordinates.push(serializePointData(currentPoint));
     }
-    vistedCoordinates.push([currentPoint.x, currentPoint.y].join(","));
   });
 
-  console.log(vistedCoordinates);
+  currentPoint = { x: 0, y: 0 };
+  const intersectedCoordinates = [];
+  data.second.forEach(instruction => {
+    const { distance, direction } = instruction;
+    for (let index = 0; index < distance; index++) {
+      if (direction === "U") {
+        currentPoint.y++;
+      } else if (direction === "D") {
+        currentPoint.y--;
+      } else if (direction === "L") {
+        currentPoint.x--;
+      } else if (direction === "R") {
+        currentPoint.x++;
+      }
+      const serializedPoint = serializePointData(currentPoint);
+      if (vistedCoordinates.includes(serializedPoint)) {
+        intersectedCoordinates.push(
+          Math.abs(currentPoint.x) + Math.abs(currentPoint.y)
+        );
+      }
+    }
+  });
+  return Math.min(...intersectedCoordinates);
 };
 
 const part2 = input => {
