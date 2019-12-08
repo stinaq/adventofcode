@@ -12,11 +12,11 @@ console.log("=======================");
 // console.log(one.part1(content1));
 // console.log(one.part2(content1));
 
-// console.log("DAY 2");
-// const fileName2 = __dirname + "/2/input.txt";
-// const content2 = fs.readFileSync(fileName2, "utf8");
-// const two = require("./2/2");
-// console.log(two.part1(content2));
+console.log("DAY 2");
+const fileName2 = __dirname + "/2/input.txt";
+const content2 = fs.readFileSync(fileName2, "utf8");
+const two = require("./2/2");
+console.log(two.part1(content2));
 // console.log(one.part2(content1));
 
 // console.log("DAY 3");
@@ -26,7 +26,7 @@ console.log("=======================");
 // console.log(three.part1(content3));
 // console.log(one.part2(content1));
 
-console.log("DAY 4");
-const four = require("./4/4");
-console.log(four.part1());
+// console.log("DAY 4");
+// const four = require("./4/4");
+// console.log(four.part1());
 // console.log(one.part2(content1));
